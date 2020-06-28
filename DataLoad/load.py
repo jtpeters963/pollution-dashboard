@@ -7,8 +7,10 @@ import json
 
 
 def import_content(filepath):
-    mng_client = pymongo.MongoClient('localhost', 27017)
-    mng_db = mng_client['pollution'] 
+    conn = 'mongodb://test_admin:mongodb2@ds151068.mlab.com:51068/heroku_16bnqn8r?retryWrites=false'
+    # mng_client = pymongo.MongoClient('localhost', 27017)
+    mng_client = pymongo.MongoClient(conn)
+    mng_db = mng_client['heroku_16bnqn8r'] 
     collection_name = 'cbsa_aqi' 
     db_cm = mng_db[collection_name]
     cdir = os.path.dirname(os.path.abspath(__file__))
@@ -21,5 +23,5 @@ def import_content(filepath):
     db_cm.insert_many(data_json)
 
 if __name__ == "__main__":
-  filepath = './data/daily_aqi_by_cbsa_2020.csv'  
-  import_content(filepath)
+    filepath = './data/daily_aqi_by_cbsa_2020.csv'  
+    import_content(filepath)
