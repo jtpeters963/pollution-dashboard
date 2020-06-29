@@ -33,13 +33,11 @@ def import_json_content(filepath,col_name):
     samples = pd.read_json(file_res)
     data = pd.DataFrame()
     for sample in samples:
-        # print(samples[sample])
         item = {
              "fips": sample,
              "countyinfo": samples[sample].info,
-             "datedata": samples[sample].data
+             "datedata": samples[sample]['data']
         }
-        # print(item)
         data = data.append(item, ignore_index=True)
 
     #print(data)
@@ -50,7 +48,7 @@ def import_json_content(filepath,col_name):
 
 if __name__ == "__main__":
     filepath = './data/daily_aqi_by_cbsa_2020.csv'  
-    #import_csv_content(filepath)
+    import_csv_content(filepath)
 
     #Load JSON Data from Lavanya and Jonathan
     json_path = '../static/data/aqi_data.json'
