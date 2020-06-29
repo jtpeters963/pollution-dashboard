@@ -1,8 +1,8 @@
 function init() {
-    //  dropdown menu 
+    //  dropdown menu item
     var dropdown = d3.select("#selDataset");
 
-    // read the fake county data coming from a json, we need to eventually populate with real data 
+    // read the fake county data coming from a json, we need to eventually populate with real data coming from US state, counties
     d3.json("static/data/fakecountynames.json").then((data)=> {
         console.log("inside the init function");
         console.log(data);
