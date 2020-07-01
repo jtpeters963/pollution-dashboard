@@ -25,34 +25,20 @@ var tile = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?
  d3.json(geoData).then (function(data) {
   console.log(data)
    // Create a new choropleth layer
-   var geojson = L.choropleth(data, {
- 
-    
-     // Define what  property in the features to use
-     valueProperty: "GEO_ID",
- 
-     // Set color scale
-     scale: ["#ffffb2", "#b10026"],
- 
-     // Number of breaks in step range
-     steps: 10,
- 
-     // q for quartile, e for equidistant, k for k-means
-     mode: "q",
-     style: {
-       // Border color
-       color: "#fff",
-       weight: 1,
-       fillOpacity: 0.8
-     },
- 
-     // Binding a pop-up to each layer
-     onEachFeature: function(feature, layer) {
-       layer.bindPopup("CountyName: " + feature.properties.NAME + "<br>Avg  Air Quality index<br>" +
-          + feature.properties.aqi_avg);
-     }
-   }).addTo(myMap);
-
+   geojson = L.geoJson(data, {
+    //    style: style,
+        style: style,
+        onEachFeature: function(feature, layer) {
+         layer.bindPopup("CountyName: " + feature.properties.NAME + "<br>Avg  Air Quality index<br>" +
+            + feature.properties.aqi_avg);
+       }
+     }).addTo(myMap);
+     L.geoJson(data, {style: style,
+    onEachFeature: function(feature, layer) {
+      layer.bindPopup("CountyName: " + feature.properties.NAME + "<br>Avg  Air Quality index<br>" +
+         + feature.properties.aqi_avg);
+          }
+      }).addTo(myMap);
   //  L.geoJson(data,{
   //   pointToLayer: function(feature,latlng){
   //     var marker = L.marker(latlng);
@@ -136,3 +122,22 @@ var tile = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?
 
  });
  
+
+ function style(feature) {
+  return {
+      fillColor: getColor(feature.properties.aqi_avg),
+      weight: 1,
+      opacity: 0.8,
+      color: 'white',
+      dashArray: '3',
+      fillOpacity: 0.7
+  };
+}
+ function getColor(d) {
+  return d > 50   ? 'red' :
+         d > 40   ?  '#FC4E2A':
+         d > 30   ?  'orange':
+         d > 20   ? 'yellow' :
+         d > 0    ? 'green' :
+                    'black';
+}

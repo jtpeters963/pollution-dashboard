@@ -28,7 +28,7 @@ def index():
 
 @app.route("/chloroplethdata")
 def chloroplethdata():
-  samples = mongo.db.geo_with_nas.find()
+    samples = mongo.db.geo_with_nas.find()
  
     pprint(samples)
     
