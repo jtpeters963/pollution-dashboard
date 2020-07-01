@@ -65,8 +65,8 @@ if __name__ == "__main__":
     import_csv_content(filepath)
 
     #Load JSON Data from Lavanya and Jonathan
-    json_path = '../static/data/aqi_data.json'
-    import_json_content(json_path,'pollutiondata')
+    json_path = '../static/data/geojson_withNAs.json'
+    import_json_content(json_path,'aqidata')
 
     json_path = '../static/data/geojson_withNAs.json'
     import_json_content2(json_path,'geo_with_nas')

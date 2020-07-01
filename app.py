@@ -21,33 +21,43 @@ mongo = PyMongo(app)
 
 @app.route("/")
 def index():
+   # aqi_info = mongo.db.geo_with_nas.find_all()
+    # how to tie this to the map logic where the data needs to come from mongoDB
     return render_template("index.html", test="passing a value works")
 
 
-@app.route("/statecounty")
-def statecounty():
+@app.route("/chloroplethdata")
+def chloroplethdata():
+  samples = mongo.db.geo_with_nas.find()
+ 
+    pprint(samples)
+    
+    return jsonify(samples)
+ 
+
+
+#ask Mike on how to pass multiple variables to the end point
+@app.route("/statecounty/<state>/<county>")
+def statecounty(state,county):
     
     # replace reading from a file once MongoDB works
-    with open('static/data/aqi_data.json') as f:
+    with open('static/data/geojson_withNAs.json') as f:
         samples = json.load(f)
 
-    
-# Output: {'name': 'Bob', 'languages': ['English', 'Fench']}
-    #print(samples[zip].info)
 
-    #samples = mongo.db.countylist.find()
-    # Uncomment the pollutiondata
-    #aqidatas = mongo.db.pollutiondata.find()
-    pprint(samples['8103'])
-    data = []
+    #uncomment when mongodb works
+    #samples = mongo.db.geo_with_nas.find()
+ 
+    pprint(samples)
+    aqi_data = []
     for sample in samples:
         item = {
-             "countyinfo": sample.info,
-             "datedata": sample.data
+             "countyname": sample['features']['properties']['NAME'],
+             "aqi_avg": sample['features']['properties'].aqi_avg
         }
  
-    data.append(item)
-    return jsonify(data)
+    aqi_data.append(item)
+    return jsonify(aqi_data)
  
 
 
