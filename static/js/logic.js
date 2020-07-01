@@ -1,7 +1,7 @@
 // Creating map object
 var myMap = L.map("map", {
   center: [34.0522, -118.2437],
-  zoom: 10
+  zoom: 5
 });
 
 // Adding tile layer
@@ -25,7 +25,7 @@ var tile = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?
  d3.json(geoData).then (function(data) {
   console.log(data)
    // Create a new choropleth layer
-   geojson = L.choropleth(data, {
+   var geojson = L.choropleth(data, {
  
     
      // Define what  property in the features to use
@@ -52,6 +52,26 @@ var tile = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?
           + feature.properties.aqi_avg);
      }
    }).addTo(myMap);
+
+  //  L.geoJson(data,{
+  //   pointToLayer: function(feature,latlng){
+  //     var marker = L.marker(latlng);
+  //     marker.bindPopup(feature.properties.STATE );
+  //     return marker;
+  //   }
+  // }).addTo(myMap);
+
+  //  var ratIcon = L.icon({
+  //   iconUrl: 'http://andywoodruff.com/maptime-leaflet/rat.png',
+  //   iconSize: [60,50]
+  // });
+  // L.geoJson(data,{
+  //   pointToLayer: function(feature,latlng){
+  //     var marker = L.marker(latlng,{icon: ratIcon});
+  //     marker.bindPopup(feature.properties.NAME + '<br/>' + feature.properties.aqi_avg);
+  //     return marker;
+  //   }
+  // }).addTo(myMap);
  
    // Set up the legend
   //  var legend = L.control({ position: "bottomright" });
@@ -81,5 +101,38 @@ var tile = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?
   //  // Adding legend to the map
   //  legend.addTo(myMap);
  
+  // Adding a search into the map using leaflet search
+  var searchControl = new L.Control.Search({
+    collapsed: false,
+		layer: geojson,
+		propertyName: 'NAME',
+		marker: false,
+		moveToLocation: function(latlng, title, map) {
+			//map.fitBounds( latlng.layer.getBounds() );
+			var zoom = map.getBoundsZoom(latlng.layer.getBounds());
+  			map.setView(latlng, zoom); // access the zoom
+		}
+	});
+
+	searchControl.on('search:locationfound', function(e) {
+		
+		console.log('search:locationfound', );
+
+		//map.removeLayer(this._markerSearch)
+
+		e.layer.setStyle({fillColor: '#3f0', color: '#0f0'});
+		if(e.layer._popup)
+			e.layer.openPopup();
+
+	}).on('search:collapsed', function(e) {
+
+		geojson.eachLayer(function(layer) {	//restore feature color
+			geojson.resetStyle(layer);
+		});	
+	});
+  
+ 
+	myMap.addControl( searchControl );  //inizialize search control
+
  });
  

@@ -14,6 +14,8 @@
    
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
+     <!-- Leaflet search css -->
+        <link rel="stylesheet" href="https://github.com/stefanocudini/leaflet-search/blob/master/src/leaflet-search.css">
 
 </head>
 
@@ -23,7 +25,7 @@
     
 
     <div class="container-fluid">
-      
+   
     
         <ul class="nav nav-tabs nav-justified md-tabs indigo" id="myTabJust" role="tablist">
           <li class="nav-item">
@@ -41,8 +43,13 @@
         </ul>
         <div class="tab-content card pt-5" id="myTabContentJust">
           <div class="tab-pane fade show active" id="home-just" role="tabpanel" aria-labelledby="home-tab-just">
+       
             <h1 class="display-5" style="color:black">Pollution Dashboard </h1>
             <h5 class="display-6" style="color:black;padding-bottom: 50px;">US County: Testing passing a value from flask {{test}}</h5>
+            <div class="form-group has-search">
+              <span class="fa fa-search form-control-feedback"></span>
+              <input type="text" class="form-control" placeholder="Search by US county">
+            </div>
             <div id="map"></div>
           </div>
 
@@ -66,8 +73,7 @@
                             <input class="form-control" id="state" type="text" placeholder="AR">
                             <label for="country">Enter a Country</label>
                             <input class="form-control" id="country" type="text" placeholder="US">
-                            <label for="shape">Enter a Shape</label>
-                            <input class="form-control" id="shape" type="text" placeholder="circle">
+                            
                           </li>
                         </ul>
                       </div>
@@ -86,15 +92,10 @@
             <p> Pitchfork sustainable tofu synth chambray yr.</p>
           </div>
         </div>
-
-
-       
-            
-            </div>
-
      
-
-       
+          
+            </div>
+     
         
    
         <!-- Bootstrap JS -->
@@ -108,13 +109,22 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.min.js" integrity="" crossorigin="anonymous"></script>
 
         
-    <!-- Leaflet JS-->
+            <!-- Leaflet JS-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
     integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
     crossorigin=""/>
   <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
     integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
     crossorigin=""></script>
+        
+        <!--Fuse and Leaflet search java script-->
+        
+        <!--trying to include this in my structure to see if this helps -->
+        <script  src="static/js/leaflet-search.js"></script>
+        <!-- <script src="https://github.com/stefanocudini/leaflet-search/tree/master/src/leaflet-search.js"></script> -->
+        <script src="https://github.com/stefanocudini/leaflet-search/tree/master/dist/leaflet-search.src.js"></script>
+
+
     <!-- d3 JavaScript -->
     <!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
 
