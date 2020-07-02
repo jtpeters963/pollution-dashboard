@@ -9,15 +9,14 @@ from pprint import pprint
 
 app = Flask(__name__)
 
+#uncomment the two lines string below to connect locally to the remote MongoDB
+#MONGODB_URI = "mongodb://heroku_16bnqn8r:o3fh2pq4irgciongqifi8kj08d@ds151068.mlab.com:51068/heroku_16bnqn8r"
+# app.config["MONGO_URI"] = environ.get('MONGODB_URI') or MONGODB_URI
+
 # Use flask_pymongo to set up mongo connection
-app.config["MONGO_URI"] = environ.get('MONGODB_URI') or "mongodb://27017/pollutiondata"
+
+app.config["MONGO_URI"] = environ.get('MONGODB_URI')
 mongo = PyMongo(app)
-
-
-# @app.route('clear')
-# def clear():
-#     collection.remove()
-#     return redirect('/')
 
 @app.route("/")
 def index():
@@ -26,27 +25,28 @@ def index():
     return render_template("index.html", test="passing a value works")
 
 
-@app.route("/chloroplethdata")
-def chloroplethdata():
-    samples = mongo.db.geo_with_nas.find()
- 
-    pprint(samples)
+@app.route("/aqidata")
+def aqidata():
+    aqi_datas = mongo.db.geo_with_nas.find()
+    # for document in aqi_datas: 
+    #     pprint(document)
+    features = []
+    for aqi_data in aqi_datas:
+     
+        features.append(aqi_data['features'])
+    geojson = {"type":"FeatureCollection",
+    "features":features}
     
-    return jsonify(samples)
- 
-
+    return jsonify(geojson)
+    
 
 #ask Mike on how to pass multiple variables to the end point
 @app.route("/statecounty/<state>/<county>")
-def statecounty(state,county):
+def statecounty(state ,county):
     
-    # replace reading from a file once MongoDB works
-    with open('static/data/geojson_withNAs.json') as f:
-        samples = json.load(f)
-
-
+  
     #uncomment when mongodb works
-    #samples = mongo.db.geo_with_nas.find()
+    samples = mongo.db.geo_with_nas.find()
  
     pprint(samples)
     aqi_data = []
@@ -58,7 +58,6 @@ def statecounty(state,county):
  
     aqi_data.append(item)
     return jsonify(aqi_data)
- 
 
 
 if __name__ == "__main__":
