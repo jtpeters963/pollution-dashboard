@@ -36,7 +36,7 @@ def import_json_content(filepath,col_name):
         item = {
              "fips": sample,
              "countyinfo": samples[sample].info,
-             "datedata": samples[sample]['data']
+             "date": samples[sample]['data']
         }
         data = data.append(item, ignore_index=True)
 
@@ -65,9 +65,12 @@ if __name__ == "__main__":
     import_csv_content(filepath)
 
     #Load JSON Data from Lavanya and Jonathan
-    json_path = '../static/data/geojson_withNAs.json'
+    # Commented this temporarily
+    # json_path = '../static/data/geojson_withNAs.json'
+    # import_json_content(json_path,'aqidata')
+
+    # json_path = '../static/data/geojson_withNAs.json'
+    # import_json_content2(json_path,'geo_with_nas')
+
+    json_path = '../static/data/aqi_data2.json'
     import_json_content(json_path,'aqidata')
-
-    json_path = '../static/data/geojson_withNAs.json'
-    import_json_content2(json_path,'geo_with_nas')
-

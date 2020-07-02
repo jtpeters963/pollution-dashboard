@@ -10,12 +10,12 @@ from pprint import pprint
 app = Flask(__name__)
 
 #uncomment the two lines string below to connect locally to the remote MongoDB
-#MONGODB_URI = "mongodb://heroku_16bnqn8r:o3fh2pq4irgciongqifi8kj08d@ds151068.mlab.com:51068/heroku_16bnqn8r"
-# app.config["MONGO_URI"] = environ.get('MONGODB_URI') or MONGODB_URI
+MONGODB_URI = "mongodb://heroku_16bnqn8r:o3fh2pq4irgciongqifi8kj08d@ds151068.mlab.com:51068/heroku_16bnqn8r"
+app.config["MONGO_URI"] = environ.get('MONGODB_URI') or MONGODB_URI
 
 # Use flask_pymongo to set up mongo connection
 
-app.config["MONGO_URI"] = environ.get('MONGODB_URI')
+#app.config["MONGO_URI"] = environ.get('MONGODB_URI')
 mongo = PyMongo(app)
 
 @app.route("/")
@@ -40,24 +40,30 @@ def aqidata():
     return jsonify(geojson)
     
 
-#ask Mike on how to pass multiple variables to the end point
-@app.route("/statecounty/<state>/<county>")
-def statecounty(state ,county):
-    
-  
-    #uncomment when mongodb works
-    samples = mongo.db.geo_with_nas.find()
- 
-    pprint(samples)
-    aqi_data = []
+
+#reads aqidata collection in MongoDB that refers to aqi_data2.json
+#Having trouble with getting the query below to work, once this is fixed we can enable the route below
+#this should be consumed by Felita's UI that displays the State and County. When the 
+# user click submit the state county supplied should open a new page.
+# The graphs should be rendered for the state and county for all the data that we have
+
+# @app.route("/statecounty/<state>/<county>")
+@app.route("/statecounty/")
+# def statecounty(state ,county):
+def statecounty():
+    state = "North Carolina"
+    county = "Swain"
+    myquery = { "State": state,"County": county }
+    #myquery = { "fips":"1027" }
+    samples = mongo.db.aqidata.find(myquery)
+       
+    for document in samples: 
+        pprint(document)
+    features = []
     for sample in samples:
-        item = {
-             "countyname": sample['features']['properties']['NAME'],
-             "aqi_avg": sample['features']['properties'].aqi_avg
-        }
- 
-    aqi_data.append(item)
-    return jsonify(aqi_data)
+        features.append(sample)
+    return jsonify(features)
+
 
 
 if __name__ == "__main__":
