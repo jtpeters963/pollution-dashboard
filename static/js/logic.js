@@ -14,15 +14,15 @@ var tile = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?
   accessToken: API_KEY
 }).addTo(myMap)
 
-// // Load in geojson data
- var geoData = "static/data/geojson_withNAs.json";
-
- console.log(geoData);
+// // Load in geojson data for temporary use
+//  var geoData = "static/data/geojson_withNAs.json";
+//  console.log(geoData);
+//Creating the layer
  var geojson;
 
 
  // Grab data with d3 use the then function  since we have version 5
- d3.json(geoData).then (function(data) {
+ d3.json('/aqidata').then (function(data) {
   console.log(data)
    // Create a new choropleth layer
    geojson = L.geoJson(data, {
@@ -106,7 +106,7 @@ var tile = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?
 
 		//map.removeLayer(this._markerSearch)
 
-		e.layer.setStyle({fillColor: '#3f0', color: '#0f0'});
+		e.layer.setStyle({fillColor: '#3f0', color: '#0f0',text:'Type a county name'});
 		if(e.layer._popup)
 			e.layer.openPopup();
 
@@ -141,3 +141,13 @@ var tile = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?
          d > 0    ? 'green' :
                     'black';
 }
+
+//play sounds based on the aqu value on mouseclick working on this
+// function getsoundtoplay(d){
+//   return 
+// }
+// var sound = new Howl({
+//   src: ['static/sounds/applause.mp3']
+// });
+
+// sound.play();
