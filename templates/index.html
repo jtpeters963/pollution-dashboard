@@ -61,7 +61,7 @@
                   <div class="panel-body">
                     <form>
                       <div class="form-group">
-                        <ul class="list-group" id="filters">
+                        <!-- ul class="list-group" id="filters">
                           <li class="filter list-group-item">
                              <label for="city">Select a state</label>
                             <input class="form-control" id="state" type="text" placeholder="Benton">
@@ -72,7 +72,13 @@
                             <input class="form-control" id="country" type="text" placeholder="US">
                             
                           </li>
-                        </ul>
+                        </ul -->
+                        <ul class="list-group" id="filters">
+                          <li class="filter list-group-item">
+                        <label for="county">Select a County, State</label>
+                        <select id="selDataset" onchange="optionChanged(this.value)"></select>
+                      </li>
+                    </ul>
                       </div>
                       <a class="btn btn-lg text-black" style="background-color:lightblue" href="/statecounty" role="button">Can i live here</a>
                      
@@ -131,7 +137,7 @@
     <!-- Our JS -->
     <script type="text/javascript" src="static/js/config.js"></script>
     <script type="text/javascript" src="static/js/logic.js"></script>
-    <script src="./static/data/fakecountynames.json"></script>
+    <!--script src="./static/data/fakecountynames.json"></script-->
     <script src="./static/js/app.js"></script>
     <script src="./static/js/sounds.js"></script>
   

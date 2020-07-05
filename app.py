@@ -51,18 +51,28 @@ def aqidata():
 @app.route("/statecounty/")
 # def statecounty(state ,county):
 def statecounty():
-    state = "North Carolina"
-    county = "Swain"
-    myquery = { "State": state,"County": county }
+    #state = "North Carolina"
+    #county = "Swain"
+    #myquery = { "State": state,"County": county }
     #myquery = { "fips":"1027" }
-    samples = mongo.db.aqidata.find(myquery)
+    #samples = mongo.db.aqidata.find(myquery)
        
-    for document in samples: 
-        pprint(document)
-    features = []
-    for sample in samples:
-        features.append(sample)
-    return jsonify(features)
+    #for document in samples: 
+    #    pprint(document)
+    #features = []
+    #for sample in samples:
+    #    features.append(sample)
+    with open('DataLoad/data/counties.json') as f:
+        data = json.load(f)
+    
+    counties = []
+    for state in data:
+        for county in data[state]:
+            item = {"fips": data[state][county], "county":county + ", " + state}
+            counties.append(item)
+
+    
+    return jsonify(counties)
 
 
 
