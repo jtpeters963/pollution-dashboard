@@ -29,6 +29,7 @@
 .has-search .form-control {
   padding-left: 2.375rem;
 }
+h3 {color:"white";}
 
 .has-search .form-control-feedback {
   position: absolute;

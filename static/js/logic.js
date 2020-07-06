@@ -59,66 +59,65 @@ var tile = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?
   //   }
   // }).addTo(myMap);
  
-   // Set up the legend
-  //  var legend = L.control({ position: "bottomright" });
-  //  legend.onAdd = function() {
-  //    var div = L.DomUtil.create("div", "info legend");
-  //    var limits = geojson.options.limits;
-  //    var colors = geojson.options.colors;
-  //    var labels = [];
+  var legend = L.control({ position: "bottomright" });
+   legend.onAdd = function() {
+     var div = L.DomUtil.create("div", "info legend");
+     var limits = ['0-20','20-30','30-40','40-50','50+'];
+     var colors = ['green','yellow','orange','#FC4E2A','red'];
+     var labels = ['Relative AQI Rankings'];
  
-  //    // Add min & max
-  //    var legendInfo = "<h1>Median Income</h1>" +
-  //      "<div class=\"labels\">" +
-  //        "<div class=\"min\">" + limits[0] + "</div>" +
-  //        "<div class=\"max\">" + limits[limits.length - 1] + "</div>" +
-  //      "</div>";
+     // Add min & max
+     var legendInfo = "<h3></h3>" 
+    //    "<div class=\"labels\">" +
+    //      "<div class=\"min\">" + limits[0] + "</div>" +
+    //      "<div class=\"max\">" + limits[limits.length - 1] + "</div>" +
+    //    "</div>";
  
-  //    div.innerHTML = legendInfo;
+     div.innerHTML = legendInfo;
  
-  //    limits.forEach(function(limit, index) {
-  //      labels.push("<li style=\"background-color: " + colors[index] + "\"></li>");
-  //    });
- 
-  //    div.innerHTML += "<ul>" + labels.join("") + "</ul>";
-  //    return div;
-  //  };
+     limits.forEach(function(limit, index) {
+       labels.push("<li style=\"background-color: " + colors[index] + "\">"+limits[index]+"</li>");
+     });
+     whiteColor='white'
+     div.innerHTML += "<ul style=\"background-color: " + whiteColor + "\">" + labels.join("") + "</ul>";
+     return div;
+   };
  
   //  // Adding legend to the map
-  //  legend.addTo(myMap);
+   legend.addTo(myMap);
  
   // Adding a search into the map using leaflet search
-  var searchControl = new L.Control.Search({
-    collapsed: false,
-		layer: geojson,
-		propertyName: 'NAME',
-		marker: false,
-		moveToLocation: function(latlng, title, map) {
-			//map.fitBounds( latlng.layer.getBounds() );
-			var zoom = map.getBoundsZoom(latlng.layer.getBounds());
-  			map.setView(latlng, zoom); // access the zoom
-		}
-	});
+  // var searchControl = new L.Control.Search({
+  //   collapsed: false,
+	// 	layer: geojson,
+	// 	propertyName: 'NAME',
+	// 	marker: false,
+	// 	moveToLocation: function(latlng, title, map) {
+	// 		//map.fitBounds( latlng.layer.getBounds() );
+	// 		var zoom = map.getBoundsZoom(latlng.layer.getBounds());
+  // 			map.setView(latlng, zoom); // access the zoom
+	// 	}
+	// });
 
-	searchControl.on('search:locationfound', function(e) {
+	// searchControl.on('search:locationfound', function(e) {
 		
-		console.log('search:locationfound', );
+	// 	console.log('search:locationfound', );
 
-		//map.removeLayer(this._markerSearch)
+	// 	//map.removeLayer(this._markerSearch)
 
-		e.layer.setStyle({fillColor: '#3f0', color: '#0f0',text:'Type a county name'});
-		if(e.layer._popup)
-			e.layer.openPopup();
+	// 	e.layer.setStyle({fillColor: '#3f0', color: '#0f0',text:'Type a county name'});
+	// 	if(e.layer._popup)
+	// 		e.layer.openPopup();
 
-	}).on('search:collapsed', function(e) {
+	// }).on('search:collapsed', function(e) {
 
-		geojson.eachLayer(function(layer) {	//restore feature color
-			geojson.resetStyle(layer);
-		});	
-	});
+	// 	geojson.eachLayer(function(layer) {	//restore feature color
+	// 		geojson.resetStyle(layer);
+	// 	});	
+	// });
   
  
-	myMap.addControl( searchControl );  //inizialize search control
+	// myMap.addControl( searchControl );  //inizialize search control
 
  });
  
