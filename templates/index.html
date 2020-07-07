@@ -37,21 +37,19 @@
             <a class="nav-link" id="profile-tab-just" data-toggle="tab" href="#profile-just" role="tab" aria-controls="profile-just"
               aria-selected="false">US States Report</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" id="contact-tab-just" data-toggle="tab" href="#contact-just" role="tab" aria-controls="contact-just"
-              aria-selected="false">Contact</a>
-          </li>
+         
         </ul>
         <div class="tab-content card pt-5" id="myTabContentJust">
           <div class="tab-pane fade show active" id="home-just" role="tabpanel" aria-labelledby="home-tab-just">
        
             <h1 class="display-5" style="color:black">Pollution Dashboard </h1>
-            <h5 class="display-6" style="color:black;padding-bottom: 50px;">US County Average AQI Rankings</h5>
+            <h5 class="display-6" style="color:black;padding-bottom: 50px;">US County: Testing passing a value from flask {{test}}</h5>
            
             <div id="map"></div>
           </div>
 
           <div class="tab-pane fade" id="profile-just" role="tabpanel" aria-labelledby="profile-tab-just">
+            <p>Add pollution related text here.</p>
               <div class="row margin-top-50">
             <div class="col-md-6">
               <aside class="filters">
@@ -60,18 +58,7 @@
                   <div class="panel-body">
                     <form>
                       <div class="form-group">
-                        <!-- ul class="list-group" id="filters">
-                          <li class="filter list-group-item">
-                             <label for="city">Select a state</label>
-                            <input class="form-control" id="state" type="text" placeholder="Benton">
-                            <select id="selDataset" default='County Names' onchange="optionChanged(this.value)"> </select>
-                            <label for="state">Enter a State</label>
-                            <input class="form-control" id="state" type="text" placeholder="AR">
-                            <label for="country">Enter a Country</label>
-                            <input class="form-control" id="country" type="text" placeholder="US">
-                            
-                          </li>
-                        </ul -->
+                      
                         <ul class="list-group" id="filters">
                           <li class="filter list-group-item">
                         <label for="county">Select a County, State</label>
@@ -79,8 +66,8 @@
                       </li>
                     </ul>
                       </div>
-                      <a class="btn btn-lg text-black"  style="background-color:lightblue" href="/plotstatecounty" role="button">Can i live here</a>
-                     
+                      <a class="btn btn-lg text-black"  style="background-color:lightblue" role="button" onclick="RedirectURL();return false;" >Can i live here</a>
+                    
                     </form>
                   </div>
                 </div>
@@ -91,6 +78,7 @@
             <div class="col-md-8">
           </div>
           <div class="tab-pane fade" id="contact-just" role="tabpanel" aria-labelledby="contact-tab-just">
+            <p> Pitchfork sustainable tofu synth chambray yr.</p>
           </div>
         </div>
      

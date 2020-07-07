@@ -86,38 +86,38 @@ var tile = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?
   //  // Adding legend to the map
    legend.addTo(myMap);
  
-  // Adding a search into the map using leaflet search
-  // var searchControl = new L.Control.Search({
-  //   collapsed: false,
-	// 	layer: geojson,
-	// 	propertyName: 'NAME',
-	// 	marker: false,
-	// 	moveToLocation: function(latlng, title, map) {
-	// 		//map.fitBounds( latlng.layer.getBounds() );
-	// 		var zoom = map.getBoundsZoom(latlng.layer.getBounds());
-  // 			map.setView(latlng, zoom); // access the zoom
-	// 	}
-	// });
+  //Adding a search into the map using leaflet search
+  var searchControl = new L.Control.Search({
+    collapsed: false,
+		layer: geojson,
+		propertyName: 'NAME',
+		marker: false,
+		moveToLocation: function(latlng, title, map) {
+			//map.fitBounds( latlng.layer.getBounds() );
+			var zoom = map.getBoundsZoom(latlng.layer.getBounds());
+  			map.setView(latlng, zoom); // access the zoom
+		}
+	});
 
-	// searchControl.on('search:locationfound', function(e) {
+	searchControl.on('search:locationfound', function(e) {
 		
-	// 	console.log('search:locationfound', );
+		console.log('search:locationfound', );
 
-	// 	//map.removeLayer(this._markerSearch)
+		//map.removeLayer(this._markerSearch)
 
-	// 	e.layer.setStyle({fillColor: '#3f0', color: '#0f0',text:'Type a county name'});
-	// 	if(e.layer._popup)
-	// 		e.layer.openPopup();
+		e.layer.setStyle({fillColor: '#3f0', color: '#0f0',text:'Type a county name'});
+		if(e.layer._popup)
+			e.layer.openPopup();
 
-	// }).on('search:collapsed', function(e) {
+	}).on('search:collapsed', function(e) {
 
-	// 	geojson.eachLayer(function(layer) {	//restore feature color
-	// 		geojson.resetStyle(layer);
-	// 	});	
-	// });
+		geojson.eachLayer(function(layer) {	//restore feature color
+			geojson.resetStyle(layer);
+		});	
+	});
   
  
-	// myMap.addControl( searchControl );  //inizialize search control
+	myMap.addControl( searchControl );  //inizialize search control
 
  });
  
@@ -166,11 +166,26 @@ function optionChanged(id) {
   console.log(selectcounty);
 }
 
-// Grab state and county data with d3 
-d3.json('/plotstatecounty/'+selectstate/selectcounty).then (function(data) {
-  console.log(data)
- 
-});
+// Grab state and county and generate the URL dynamically
+function createDynamicURL()
+{
+    //The variable to be returned
+    var URL ="plotstatecounty/";
+    //Forming the variable to return    
+    //URL+="county=";
+    URL+=selectstate.trim();
+    URL+="/";
+    URL+=selectcounty.trim();
+  
+    return URL;
+}
+
+function RedirectURL()
+{
+    //window.location= createDynamicURL();
+    window.open(createDynamicURL());
+}
+
 
 
 
