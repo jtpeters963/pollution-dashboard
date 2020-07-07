@@ -150,3 +150,32 @@ var tile = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?
 // });
 
 // sound.play();
+
+// Getting the value of the state county when the user Click the submit button
+var dropdown = d3.select("#selDataset");
+var selectstate;
+var selectcounty;
+var statecountyselect = dropdown.node().value;
+console.log(statecountyselect);
+
+function optionChanged(id) {
+  var statecountyselect = dropdown.node().value;
+  selectstate = statecountyselect.split(",")[1];
+  console.log(selectstate);
+  selectcounty = statecountyselect.split(",")[0];
+  console.log(selectcounty);
+}
+
+// Grab state and county data with d3 
+d3.json('/plotstatecounty/'+selectstate/selectcounty).then (function(data) {
+  console.log(data)
+ 
+});
+
+
+
+
+
+
+
+

@@ -40,40 +40,38 @@ def aqidata():
     return jsonify(geojson)
     
 
-
-#reads aqidata collection in MongoDB that refers to aqi_data2.json
-#Having trouble with getting the query below to work, once this is fixed we can enable the route below
-#this should be consumed by Felita's UI that displays the State and County. When the 
-# user click submit the state county supplied should open a new page.
-# The graphs should be rendered for the state and county for all the data that we have
-
 # @app.route("/statecounty/<state>/<county>")
 @app.route("/statecounty/")
 # def statecounty(state ,county):
 def statecounty():
-    #state = "North Carolina"
-    #county = "Swain"
-    #myquery = { "State": state,"County": county }
-    #myquery = { "fips":"1027" }
-    #samples = mongo.db.aqidata.find(myquery)
-       
-    #for document in samples: 
-    #    pprint(document)
-    #features = []
-    #for sample in samples:
-    #    features.append(sample)
     with open('DataLoad/data/counties.json') as f:
         data = json.load(f)
     
-    counties = []
+    statecounties = []
     for state in data:
         for county in data[state]:
-            item = {"fips": data[state][county], "county":county + ", " + state}
-            counties.append(item)
+            item = { "county":county + ", " + state}
+            statecounties.append(item)
+        
+    return jsonify(statecounties)
 
+@app.route("/plotstatecounty/<state>/<county>")
+def plotstatecounty(state ,county):
+# @app.route("/plotstatecounty/")
+# def plotstatecounty():
+   
+    myquery = { "countyinfo.State": state,"countyinfo.County": county }
     
-    return jsonify(counties)
-
+    samples = mongo.db.aqidata.find(myquery)
+       
+    # for document in samples: 
+    #    pprint(document)
+    features = []
+    for sample in samples:
+        item = {'county': sample['countyinfo']['County'],'state': sample['countyinfo']['State'],'date':sample['date']}
+        features.append(item)
+        
+    return jsonify(features)
 
 
 if __name__ == "__main__":
