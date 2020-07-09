@@ -193,8 +193,83 @@ function createOtherPollutantsPlot(fips){
   
   var url = '/ozone/'+fips
   console.log(url)
-  d3.json(url).then(function(ozonedata){
-    console.log(ozonedata)
+  d3.json(url).then(function(countyData){
+    console.log(countyData)
+    var ozoneData = countyData.ozone;
+    var ozoneTraces =[]
+    for (var i in ozoneData){
+      var j = ozoneData[i] ;
+      var station = j.data;
+      var dates= Object.keys(station);
+      console.log(dates);
+      var x = dates.map(ds => new Date(ds))
+      console.log(x)
+      var y = Object.values(station);
+      var trace = {x:x,y:y,type:'scatter',mode:'markers',name:i};  
+      ozoneTraces.push(trace);
+    }
+    ozoneLayout={title:'Ozone', yaxis:{range:[0,Math.max[y]]}}
+    Plotly.newPlot("ozone_plot",ozoneTraces,ozoneLayout)
+    var coData = countyData.CO;
+    var coTraces =[]
+    for (var i in coData){
+      var j = coData[i] ;
+      var station = j.data;
+      var dates= Object.keys(station);
+      console.log(dates);
+      var x = dates.map(ds => new Date(ds))
+      console.log(x)
+      var y = Object.values(station);
+      var trace = {x:x,y:y,type:'scatter',mode:'markers',name:i};  
+      coTraces.push(trace);
+    }
+    coLayout={title:'CO'}
+    Plotly.newPlot("co_plot",coTraces,coLayout)
+    var soData = countyData.SO2;
+    var soTraces =[]
+    for (var i in soData){
+      var j = soData[i] ;
+      var station = j.data;
+      var dates= Object.keys(station);
+      console.log(dates);
+      var x = dates.map(ds => new Date(ds))
+      console.log(x)
+      var y = Object.values(station);
+      var trace = {x:x,y:y,type:'scatter',mode:'markers', name:i};  
+      soTraces.push(trace);
+    }
+    soLayout={title:'SO2'}
+    Plotly.newPlot("so_plot",soTraces,soLayout)
+    var pmData = countyData.pm_25;
+    var pmTraces =[]
+    for (var i in pmData){
+      var j = pmData[i] ;
+      var station = j.data;
+      var dates= Object.keys(station);
+      console.log(dates);
+      var x = dates.map(ds => new Date(ds))
+      console.log(x)
+      var y = Object.values(station);
+      var trace = {x:x,y:y,type:'scatter',mode:'markers',name:i};  
+      pmTraces.push(trace);
+    }
+    pmLayout={title:'PM 2.5',yaxis:{range:[0,Math.max(y)]}}
+    Plotly.newPlot("pm_plot",pmTraces,pmLayout)
+    var noData = countyData.NO2;
+    var noTraces =[]
+    for (var i in noData){
+      var j = noData[i] ;
+      var station = j.data;
+      var dates= Object.keys(station);
+      console.log(dates);
+      var x = dates.map(ds => new Date(ds))
+      console.log(x)
+      var y = Object.values(station);
+      var trace = {x:x,y:y,type:'scatter',mode:'markers',name:i};  
+      noTraces.push(trace);
+    }
+    noLayout={title:'NO2'}
+    Plotly.newPlot("no_plot",noTraces,noLayout)
   });
 }
 
