@@ -179,7 +179,14 @@ var y = Object.values(aqiData);
 var data = [{x:x,y:y, type:"scatter",mode:"marker"}]
 var layout={title:"AQI"}
 Plotly.newPlot("aqiplot",data,layout)
+
+
 });
+
+d3.json('/ozone').then(function(ozonedata){
+console.log(ozonedata)
+});
+
 };
 // Grab state and county and generate the URL dynamically
 function createDynamicURL()

@@ -73,6 +73,19 @@ def plotstatecounty(state ,county):
         
     return jsonify(features)
 
+@app.route("/ozone")
+def ozone():
+    
+    samples = mongo.db.trying.find_one() 
+    # print(samples)
+    # features = []
+    # for sample in samples:
+    #     item = {'county': sample['info']['County'],'state': sample['info']['State']}
+    #     features.append(item)
+        
+    return jsonify(samples["5101"])
+    
+
 
 if __name__ == "__main__":
     app.run(debug=True)
