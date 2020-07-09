@@ -164,8 +164,23 @@ function optionChanged(id) {
   console.log(selectstate);
   selectcounty = statecountyselect.split(",")[0];
   console.log(selectcounty);
+  createAqiPlot();
 }
 
+function createAqiPlot(){
+var aqi = createDynamicURL()
+d3.json(aqi).then (function(data) {
+  
+console.log(data)
+
+var aqiData = data[0]["date"];
+var x = Object.keys(aqiData);
+var y = Object.values(aqiData);
+var data = [{x:x,y:y, type:"scatter",mode:"marker"}]
+var layout={title:"AQI"}
+Plotly.newPlot("aqiplot",data,layout)
+});
+};
 // Grab state and county and generate the URL dynamically
 function createDynamicURL()
 {
