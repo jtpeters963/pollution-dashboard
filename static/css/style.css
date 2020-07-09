@@ -6,7 +6,7 @@
   html,
   body,
   #map {
-
+    font-size: 2rem;
     padding: 40px;
     margin: 0;
     position: relative;
@@ -16,6 +16,24 @@
     width: 100%;
     height: 400px;
   }
+
+  .card {
+    background-color: rgb(190, 245, 215) !important;
+  }
+
+/* Navigation style override */
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+  color: #495057;
+  background-color: rgb(15, 160, 136) !important;
+  font-size: 1.8rem !important;
+  border-color: #dee2e6 #dee2e6 #fff;
+}
+a {
+  color: #495057 !important;
+  background-color: rgb(184, 189, 188) !important;
+  font-size: 1.8rem !important;
+  border-color: #dee2e6 #dee2e6 #fff;
+}
 
   /* Styles for wrapping the search box */
 
@@ -61,7 +79,7 @@ h3 {color:"white";}
   }
   
   /* The code styles the text at the bottom of the footer */
-  .footer > .bottom {
+  .footer .bottom {
     position: absolute;
     right: 0;
     bottom: 0;
@@ -74,6 +92,8 @@ h3 {color:"white";}
     padding: 5px;
     margin: 0;
   }
+
+  
   
   /* This CSS styles the ufo icon in the navbar */
   .nav-ufo {
