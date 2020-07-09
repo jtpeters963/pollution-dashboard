@@ -66,11 +66,12 @@ if __name__ == "__main__":
 
     #Load JSON Data from Lavanya and Jonathan
     # Commented this temporarily
-    # json_path = '../static/data/geojson_withNAs.json'
-    # import_json_content(json_path,'aqidata')
+    json_path = 'data/pol_dat2.json'
+    import_json_content2(json_path,'pol_dat2')
 
-    # json_path = '../static/data/geojson_withNAs.json'
-    # import_json_content2(json_path,'geo_with_nas')
+
+    json_path = '../static/data/geojson_withNAs.json'
+    import_json_content2(json_path,'geo_with_nas')
 
     json_path = '../static/data/aqi_data2.json'
     import_json_content(json_path,'aqidata')

@@ -62,7 +62,7 @@ var tile = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?
   var legend = L.control({ position: "bottomright" });
    legend.onAdd = function() {
      var div = L.DomUtil.create("div", "info legend");
-     var limits = ['0-20','20-30','30-40','40-50','50+'];
+     var limits = ['Good(0-20)','Moderate(20-30)','Unhealthy for Sensitive(30-40)','Unhealthy(40-50)','Extremely Unhealthy(50+)'];
      var colors = ['green','yellow','orange','#FC4E2A','red'];
      var labels = ['Relative AQI Rankings'];
  
@@ -79,7 +79,7 @@ var tile = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?
        labels.push("<li style=\"background-color: " + colors[index] + "\">"+limits[index]+"</li>");
      });
      whiteColor='white'
-     div.innerHTML += "<ul style=\"background-color: " + whiteColor + "\">" + labels.join("") + "</ul>";
+     div.innerHTML += "<ul style=\"background-color: " + whiteColor + ";list-style-type:none;padding:0px;\">" + labels.join("") + "</ul>";
      return div;
    };
  
