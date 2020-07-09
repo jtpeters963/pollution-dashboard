@@ -155,6 +155,7 @@ var tile = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?
 var dropdown = d3.select("#selDataset");
 var selectstate;
 var selectcounty;
+var fips;
 var statecountyselect = dropdown.node().value;
 console.log(statecountyselect);
 
@@ -164,7 +165,11 @@ function optionChanged(id) {
   console.log(selectstate);
   selectcounty = statecountyselect.split(",")[0];
   console.log(selectcounty);
+
+  selectfips = statecountyselect.split(":")[1].split(")")[0];
+  console.log(selectfips);
   createAqiPlot();
+  createOtherPollutantsPlot(selectfips);
 }
 
 function createAqiPlot(){
@@ -182,12 +187,19 @@ Plotly.newPlot("aqiplot",data,layout)
 
 
 });
+}
 
-d3.json('/ozone').then(function(ozonedata){
-console.log(ozonedata)
-});
+function createOtherPollutantsPlot(fips){
+  
+  var url = '/ozone/'+fips
+  console.log(url)
+  d3.json(url).then(function(ozonedata){
+    console.log(ozonedata)
+  });
+}
 
-};
+
+
 // Grab state and county and generate the URL dynamically
 function createDynamicURL()
 {

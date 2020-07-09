@@ -40,32 +40,27 @@ def aqidata():
     return jsonify(geojson)
     
 
-# @app.route("/statecounty/<state>/<county>")
 @app.route("/statecounty/")
-# def statecounty(state ,county):
 def statecounty():
     with open('DataLoad/data/counties.json') as f:
         data = json.load(f)
     
-    statecounties = []
+    statecountiesfips = []
     for state in data:
         for county in data[state]:
-            item = { "county":county + ", " + state}
-            statecounties.append(item)
+            # item = { 'county':county ,'state': state ,'fips': data[state][county]}
+            item = { "county":county + ", " + state +",(fips:" + data[state][county]+")"}
+            statecountiesfips.append(item)
         
-    return jsonify(statecounties)
+    return jsonify(statecountiesfips)
 
 @app.route("/plotstatecounty/<state>/<county>")
 def plotstatecounty(state ,county):
-# @app.route("/plotstatecounty/")
-# def plotstatecounty():
    
     myquery = { "countyinfo.State": state,"countyinfo.County": county }
     
     samples = mongo.db.aqidata.find(myquery)
-       
-    # for document in samples: 
-    #    pprint(document)
+  
     features = []
     for sample in samples:
         item = {'county': sample['countyinfo']['County'],'state': sample['countyinfo']['State'],'date':sample['date']}
@@ -73,17 +68,17 @@ def plotstatecounty(state ,county):
         
     return jsonify(features)
 
-@app.route("/ozone")
-def ozone():
+@app.route("/ozone/<fips>")
+def ozone(fips):
     
-    samples = mongo.db.trying.find_one() 
+    samples = mongo.db.pol_dat.find_one() 
     # print(samples)
     # features = []
     # for sample in samples:
     #     item = {'county': sample['info']['County'],'state': sample['info']['State']}
     #     features.append(item)
         
-    return jsonify(samples["5101"])
+    return jsonify(samples[fips])
     
 
 
