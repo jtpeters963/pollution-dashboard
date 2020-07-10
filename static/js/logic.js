@@ -1,15 +1,13 @@
+var mysiteMap =10;
 // Creating map object
 var myMap = L.map("map", {
-  center: [34.0522, -118.2437],
-  zoom: 6
+  center: [39, -98],
+  zoom: 4
 });
 
 // Another map for the sites
     // Adding a map for the site data
-  var mysiteMap = L.map("sitemap", {
-   center: [34.0522, -118.2437],
-      zoom: 5
-    });
+  
 
 // Adding tile layer
 var tile = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
@@ -296,17 +294,29 @@ function createOtherPollutantsPlot(fips){
               yaxis:{title:"NO2:ppb",rangemode:'nonnegative'}}
     Plotly.newPlot("no_plot",noTraces,noLayout)
 
-
-
+var siteOne = siteKeys[0];
+var centerCoord = siteCoord[siteOne]
+console.log('center coordinates');
+console.log(centerCoord);
 // Adding tile layer
-var tile = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
-  attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
-  tileSize: 512,
-  maxZoom: 18,
-  zoomOffset: -1,
-  id: "mapbox/satellite-streets-v11",
-  accessToken: API_KEY
-}).addTo(mysiteMap)
+if (mysiteMap!=10){
+  mysiteMap.off();
+  mysiteMap.remove();
+}
+ mysiteMap = L.map("sitemap", {
+    center: centerCoord,
+    zoom: 10
+   });
+   var tile = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+    attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
+    tileSize: 512,
+    maxZoom: 18,
+    zoomOffset: -1,
+    id: "mapbox/satellite-streets-v11",
+    accessToken: API_KEY
+  }).addTo(mysiteMap)
+
+
 
 
 for(var i in siteCoord){
@@ -315,19 +325,9 @@ var location = siteCoord[i]
 
 //location = [-41.29042, 174.78219]
 L.marker(location)
-  .bindPopup("<h1> number of sites for this data </br>" +i+ "</h1>")
-  .on('click', function() {
-    centerLeafletMapOnMarker(sitemap, this);
-  })
+  .bindPopup("<h1> Site ID:" +i+ "</h1>")
   .addTo(mysiteMap);
 }
-
-function centerLeafletMapOnMarker(mysiteMap, marker) {
-var latLngs = [ location ];
-var markerBounds = L.latLngBounds(latLngs);
-mysiteMap.fitBounds(markerBounds);
-}
-
 
 
   });
