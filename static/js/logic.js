@@ -207,7 +207,9 @@ function createOtherPollutantsPlot(fips){
       var trace = {x:x,y:y,type:'scatter',mode:'markers',name:i};  
       ozoneTraces.push(trace);
     }
-    ozoneLayout={title:'Ozone', yaxis:{range:[0,Math.max[y]]}}
+    ozoneLayout={title:'Ozone',
+            xaxis:{title:"date"},
+            yaxis:{title:"Ozone:ppm",rangemode:'nonnegative'}}
     Plotly.newPlot("ozone_plot",ozoneTraces,ozoneLayout)
     var coData = countyData.CO;
     var coTraces =[]
@@ -227,7 +229,9 @@ function createOtherPollutantsPlot(fips){
       var trace = {x:x,y:y,type:'scatter',mode:'markers',name:i};  
       coTraces.push(trace);
     }
-    coLayout={title:'CO'}
+    coLayout={title:'CO',
+              xaxis:{title:'Date'},
+              yaxis:{title:'CO:ppm',rangemode:'nonnegative'}}
     Plotly.newPlot("co_plot",coTraces,coLayout)
     var soData = countyData.SO2;
     var soTraces =[]
@@ -247,7 +251,9 @@ function createOtherPollutantsPlot(fips){
       var trace = {x:x,y:y,type:'scatter',mode:'markers', name:i};  
       soTraces.push(trace);
     }
-    soLayout={title:'SO2'}
+    soLayout={title:'SO2',
+              xaxis:{title:"Date"},
+              yaxis:{title:"SO2:ppb", rangemode:'nonnegative'}}
     Plotly.newPlot("so_plot",soTraces,soLayout)
     var pmData = countyData.pm_25;
     var pmTraces =[]
@@ -267,10 +273,10 @@ function createOtherPollutantsPlot(fips){
       var trace = {x:x,y:y,type:'scatter',mode:'markers',name:i};  
       pmTraces.push(trace);
     }
-    pmLayout={title:'PM 2.5',yaxis:{range:[0,Math.max(y)]}}
+    pmLayout={title:'PM 2.5',yaxis:{title:"PM 2.5 micrograms/cubic meter",rangemode:'nonnegative'}}
     Plotly.newPlot("pm_plot",pmTraces,pmLayout)
     var noData = countyData.NO2;
-    var noTraces =[]
+    var noTraces =[];
     for (var i in noData){
       var j = noData[i] ;
       if (typeof siteCoord.i==="undefined" ){
@@ -280,14 +286,14 @@ function createOtherPollutantsPlot(fips){
       }
       var station = j.data;
       var dates= Object.keys(station);
-    //  console.log(dates);
       var x = dates.map(ds => new Date(ds))
-     // console.log(x)
       var y = Object.values(station);
       var trace = {x:x,y:y,type:'scatter',mode:'markers',name:i};  
       noTraces.push(trace);
     }
-    noLayout={title:'NO2'}
+    noLayout={title:'NO2',
+              xaxis:{title:"Date"},
+              yaxis:{title:"NO2:ppb",rangemode:'nonnegative'}}
     Plotly.newPlot("no_plot",noTraces,noLayout)
 
 
