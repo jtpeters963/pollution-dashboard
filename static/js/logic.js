@@ -70,7 +70,7 @@ var tile = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?
        labels.push("<li style=\"background-color: " + colors[index] + "\">"+limits[index]+"</li>");
      });
      whiteColor='white'
-     div.innerHTML += "<ul style=\"background-color: " + whiteColor + ";list-style-type:none;padding:0px;\">" + labels.join("") + "</ul>";
+     div.innerHTML += "<ul style=\"background-color: " + whiteColor + ";list-style-type:none;padding:0px; font-size: 15px;\">" + labels.join("") + "</ul>";
      return div;
    };
  
