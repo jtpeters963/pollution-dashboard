@@ -1,8 +1,15 @@
 // Creating map object
 var myMap = L.map("map", {
   center: [34.0522, -118.2437],
-  zoom: 5
+  zoom: 6
 });
+
+// Another map for the sites
+    // Adding a map for the site data
+  var mysiteMap = L.map("sitemap", {
+   center: [34.0522, -118.2437],
+      zoom: 5
+    });
 
 // Adding tile layer
 var tile = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
@@ -35,29 +42,13 @@ var tile = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?
      }).addTo(myMap);
      L.geoJson(data, {style: style,
     onEachFeature: function(feature, layer) {
+  if (feature.properties.aqi_avg) {
       layer.bindPopup("CountyName: " + feature.properties.NAME + "<br>Avg  Air Quality index<br>" +
          + feature.properties.aqi_avg);
           }
+        }
       }).addTo(myMap);
-  //  L.geoJson(data,{
-  //   pointToLayer: function(feature,latlng){
-  //     var marker = L.marker(latlng);
-  //     marker.bindPopup(feature.properties.STATE );
-  //     return marker;
-  //   }
-  // }).addTo(myMap);
-
-  //  var ratIcon = L.icon({
-  //   iconUrl: 'http://andywoodruff.com/maptime-leaflet/rat.png',
-  //   iconSize: [60,50]
-  // });
-  // L.geoJson(data,{
-  //   pointToLayer: function(feature,latlng){
-  //     var marker = L.marker(latlng,{icon: ratIcon});
-  //     marker.bindPopup(feature.properties.NAME + '<br/>' + feature.properties.aqi_avg);
-  //     return marker;
-  //   }
-  // }).addTo(myMap);
+ 
  
   var legend = L.control({ position: "bottomright" });
    legend.onAdd = function() {
@@ -194,11 +185,19 @@ function createOtherPollutantsPlot(fips){
   var url = '/ozone/'+fips
   console.log(url)
   d3.json(url).then(function(countyData){
+    var siteCoord ={};
+    var siteKeys =[];
     console.log(countyData)
     var ozoneData = countyData.ozone;
     var ozoneTraces =[]
     for (var i in ozoneData){
       var j = ozoneData[i] ;
+      if (typeof siteCoord.i==="undefined" ){
+        var coord = j.site_coord;
+        siteCoord[i]=[coord.lat,coord.lon];
+        siteKeys.push(i);
+      }
+
       var station = j.data;
       var dates= Object.keys(station);
       console.log(dates);
@@ -214,6 +213,11 @@ function createOtherPollutantsPlot(fips){
     var coTraces =[]
     for (var i in coData){
       var j = coData[i] ;
+      if (typeof siteCoord.i==="undefined" ){
+        var coord = j.site_coord;
+        siteCoord[i]=[coord.lat,coord.lon];
+        siteKeys.push(i);
+      }
       var station = j.data;
       var dates= Object.keys(station);
       console.log(dates);
@@ -229,6 +233,11 @@ function createOtherPollutantsPlot(fips){
     var soTraces =[]
     for (var i in soData){
       var j = soData[i] ;
+      if (typeof siteCoord.i==="undefined" ){
+        var coord = j.site_coord;
+        siteCoord[i]=[coord.lat,coord.lon];
+        siteKeys.push(i);
+      }
       var station = j.data;
       var dates= Object.keys(station);
       console.log(dates);
@@ -244,6 +253,11 @@ function createOtherPollutantsPlot(fips){
     var pmTraces =[]
     for (var i in pmData){
       var j = pmData[i] ;
+      if (typeof siteCoord.i==="undefined" ){
+        var coord = j.site_coord;
+        siteCoord[i]=[coord.lat,coord.lon];
+        siteKeys.push(i);
+      }
       var station = j.data;
       var dates= Object.keys(station);
       console.log(dates);
@@ -259,18 +273,60 @@ function createOtherPollutantsPlot(fips){
     var noTraces =[]
     for (var i in noData){
       var j = noData[i] ;
+      if (typeof siteCoord.i==="undefined" ){
+        var coord = j.site_coord;
+        siteCoord[i]=[coord.lat,coord.lon];
+        siteKeys.push(i);
+      }
       var station = j.data;
       var dates= Object.keys(station);
-      console.log(dates);
+    //  console.log(dates);
       var x = dates.map(ds => new Date(ds))
-      console.log(x)
+     // console.log(x)
       var y = Object.values(station);
       var trace = {x:x,y:y,type:'scatter',mode:'markers',name:i};  
       noTraces.push(trace);
     }
     noLayout={title:'NO2'}
     Plotly.newPlot("no_plot",noTraces,noLayout)
+
+
+
+// Adding tile layer
+var tile = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+  attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
+  tileSize: 512,
+  maxZoom: 18,
+  zoomOffset: -1,
+  id: "mapbox/satellite-streets-v11",
+  accessToken: API_KEY
+}).addTo(mysiteMap)
+
+
+for(var i in siteCoord){
+
+var location = siteCoord[i]
+
+//location = [-41.29042, 174.78219]
+L.marker(location)
+  .bindPopup("<h1> number of sites for this data </br>" +i+ "</h1>")
+  .on('click', function() {
+    centerLeafletMapOnMarker(sitemap, this);
+  })
+  .addTo(mysiteMap);
+}
+
+function centerLeafletMapOnMarker(mysiteMap, marker) {
+var latLngs = [ location ];
+var markerBounds = L.latLngBounds(latLngs);
+mysiteMap.fitBounds(markerBounds);
+}
+
+
+
   });
+
+
 }
 
 
@@ -294,6 +350,7 @@ function RedirectURL()
     //window.location= createDynamicURL();
     window.open(createDynamicURL());
 }
+
 
 
 
