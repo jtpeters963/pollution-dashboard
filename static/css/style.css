@@ -48,6 +48,10 @@ a {
   margin: 50px auto;
 }
 
+.leaflet-popup-content-wrapper {
+  background-color: #000
+}
+
 /* Bootstrap 4 text input with search icon */
 
 .has-search .form-control {
@@ -248,6 +252,12 @@ h3 {color:"white";}
       animation: smaller-title 1.2s forwards linear;
     }
   }
+
+  .panel-heading1 {
+    background-color: #0FA088;
+    font-size: medium;
+    color: #ebebeb;
+}
   
   /* keyframe animations which will be used to animate the title */
   @keyframes title {

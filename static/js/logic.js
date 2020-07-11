@@ -1,3 +1,5 @@
+
+
 var mysiteMap =10;
 // Creating map object
 var myMap = L.map("map", {
@@ -34,20 +36,51 @@ var tile = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?
     //    style: style,
         style: style,
         onEachFeature: function(feature, layer) {
+          if (feature.properties.aqi_avg !=NaN) {
          layer.bindPopup("CountyName: " + feature.properties.NAME + "<br>Avg  Air Quality index<br>" +
             + feature.properties.aqi_avg);
+          }
        }
      }).addTo(myMap);
      L.geoJson(data, {style: style,
     onEachFeature: function(feature, layer) {
-  if (feature.properties.aqi_avg) {
-      layer.bindPopup("CountyName: " + feature.properties.NAME + "<br>Avg  Air Quality index<br>" +
+  if (feature.properties.aqi_avg != NaN) {
+      layer.bindPopup("US County Name: " + feature.properties.NAME + "<br>Avg  Air Quality index<br>" +
          + feature.properties.aqi_avg);
           }
+         
+          // layer.on({
+          //   click: sound.stop()
+            
+          // });
         }
       }).addTo(myMap);
  
- 
+      //geojson.on('click',playSound(feature.properties.aqi_avg)).addTo(myMap);
+  
+
+//play sounds based on the aqui value on mouseclick working on this
+function getSound(d) {
+  return d > 50   ? 'Explosion+3.mp3' :
+        //  d > 40   ?  '#FC4E2A':
+        //  d > 30   ?  'orange':
+        //  d > 20   ? 'yellow' :
+       //  d < 50    ? 'applause.mp3' :
+       'applause.mp3';
+}
+
+
+function playSound(d){
+
+  soundFile = getSound(d)
+  console.log(soundFile)
+var sound = new Howl({
+  src: ['static/sounds/'+soundFile]
+});
+
+sound.play();
+}
+
   var legend = L.control({ position: "bottomright" });
    legend.onAdd = function() {
      var div = L.DomUtil.create("div", "info legend");
@@ -130,15 +163,9 @@ var tile = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?
                     'black';
 }
 
-//play sounds based on the aqu value on mouseclick working on this
-// function getsoundtoplay(d){
-//   return 
-// }
-// var sound = new Howl({
-//   src: ['static/sounds/applause.mp3']
-// });
 
-// sound.play();
+
+
 
 // Getting the value of the state county when the user Click the submit button
 var dropdown = d3.select("#selDataset");
