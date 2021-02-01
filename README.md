@@ -1,5 +1,5 @@
 # pollution-dashboard
-##[Pollution Dashboard Presentation
+## Pollution Dashboard Presentation
 
    
 ![Pollutants](Common_Pollutants.png)
