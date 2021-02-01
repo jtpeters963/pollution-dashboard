@@ -1,3 +1,3 @@
 # pollution-dashboard
-   [embed]Pollution_dashboard.pdf[/embed]
+![Pollution Dashboard Presentation](Pollution_dashboard.pdf)
    
